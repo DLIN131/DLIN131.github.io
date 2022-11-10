@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ch">
+    <head>
+        <title>youtubeRandomPlayer</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+        <link rel="stylesheet/less" type="text/css" href="./less/style.less" />
+    </head>
+    <body>
+        <div id="put-playlist">
+            <div>
+                <input id="playlist-url" type="text" placeholder="playlistId" value="PLR3WiLknrVUZX033xFGw8ISMA_RdXUnNk">
+                <button id="search">search</button>
+                <span id="load-img"><img src="./img/hutoa01-unscreen.gif" alt=""></span>
+            </div> 
+        </div>
+        <div id="player"></div>
+        <div id="button-area">
+            <button id="prev-song">上一首</button>
+            <button id="next-song">下一首</button>
+            <button id="random-btn">隨機</button>
+        </div>
+        <div id="select-area">
+            <select name="videoTitle" id="video-title" size="10">
+                <option value="UQgv8MBxCuU">刀劍神域十周年紀念pv</option>
+                <option value="aPKlAGohXvg"> PaⅢ.AGITATION / 初音ミク×GUMI×鏡音リン</option>
+                <option value="PB4VaN_qV3Q">1</option>
+            </select>
+        </div>
+
+
+
+
+        <!-- <script src=”https://www.youtube.com/player_api"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://apis.google.com/js/api.js"></script>
+        <!-- <script type="module" src="fetchData.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/less" ></script>
+        <script src="./js/index.js"></script>
+    </body>
+</html>
