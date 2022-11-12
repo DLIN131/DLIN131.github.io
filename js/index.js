@@ -14,10 +14,12 @@ const randomBtn = document.querySelector("#random-btn");
 const loadImgEle = document.querySelector("#load-img");
 const prevSongBtn = document.querySelector("#prev-song");
 const nextSongBtn = document.querySelector("#next-song");
-
+const searchBtn = document.querySelector("#search");
+const searchListBtn = document.querySelector("#search-list-btn");
+const searchListTxt = document.querySelector("#search-list");
 let youtubeData = null;
 let snippetData=[];
-
+let playlistIdTempArr = [];
 
 async function fetchData(){
     do{
@@ -133,38 +135,43 @@ let shuffleFlag = false
 randomBtn.addEventListener("click",function(){
     shuffleFlag = true;
     Shuffle(snippetData);
-    appendVideoTitle();    
+    appendVideoTitle(snippetData);    
 
 })
 
 
-function appendVideoTitle(){
+function appendVideoTitle(mapData){
     videoTitleEle.style.display = "block";
-    let optionMap = snippetData.map(item => `<option value=${item.resourceId.videoId}>${item.position+'.'+item.title}</option>`);
+    let optionMap = mapData.map(item => `<option value=${item.resourceId.videoId}>${item.position+'.'+item.title}</option>`);
     videoTitleEle.innerHTML = optionMap;
 }
 
 
 async function main(){
     loadImgEle.style.display = "inline";
+    searchBtn.disabled = true;
     await fetchData();
     loadImgEle.style.display = "none";
+    searchBtn.disabled = false;
     console.log(snippetData.length);
     nextSongBtn.style.display = prevSongBtn.style.display = randomBtn.style.display = "inline";
-    appendVideoTitle();
+    appendVideoTitle(snippetData);
    
 }
 
-const searchBtn = document.querySelector("#search");
+
 searchBtn.addEventListener("click",function(){
     const PLID = document.getElementById("playlist-url").value;
-    playlistId = PLID;
-    main();
+    if(!checkPlaylistIdExist(PLID,playlistIdTempArr)){
+        playlistId = PLID;
+        main();
+    }
+    
 })
 
 
 /////////////////////////////////////////////////////////////////////
-//////**********************切換歌曲方法************************//////
+//////**********************button area function************************//////
 ////////////////////////////////////////////////////////////////////
 
 //點擊清單切換
@@ -190,4 +197,24 @@ nextSongBtn.addEventListener("click",function(e){
     console.log(videoTitleEle.options[index+1].selected = "selected"); 
     index = videoTitleEle.selectedIndex;
     onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+})
+
+//check playlist id
+function checkPlaylistIdExist(playlistId,idArr){
+    for (let i = 0; i < idArr.length; i++) {
+        if(playlistId === idArr[i]){
+            alert("playlist had been exist");
+            return true;
+        }
+    }
+    idArr.push(playlistId);
+    return false;
+}
+
+searchListBtn.addEventListener("click",function(){
+    const videoName = searchListTxt.value.trim().toLowerCase();
+    console.log(videoName);
+    let result  = snippetData.filter((item) => item.title.toLowerCase().match(videoName));
+    console.log(result);
+    appendVideoTitle(result);
 })
