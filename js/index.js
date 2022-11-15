@@ -37,7 +37,11 @@ async function fetchData(){
     youtubeData = res.data;
     console.log(youtubeData);
     for(let i=0;i<youtubeData.items.length;i++){
-        snippetData.push(youtubeData.items[i].snippet);
+        if(youtubeData.items[i].snippet.title !== "Deleted video" 
+        && youtubeData.items[i].snippet.title !=="Private video"){
+            snippetData.push(youtubeData.items[i].snippet);
+        }
+        
     }
     nextpageT = youtubeData.nextPageToken;
     }while(nextpageT !== undefined) 
@@ -133,6 +137,7 @@ function stopVideo() {
 function appendVideoTitle(mapData){
     videoTitleEle.style.display = "block";
     let optionMap = mapData.map(item => `<option value=${item.resourceId.videoId}>${item.position+'.'+item.title}</option>`);
+    console.log(optionMap);
     videoTitleEle.innerHTML = optionMap;
 }
 
