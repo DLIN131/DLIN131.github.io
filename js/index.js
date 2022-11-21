@@ -108,7 +108,6 @@ function onPlayerReady(event) {
   // 5. The API calls this function when the player's state changes.
       //    The function indicates that when playing a video (state=1),
       //    the player should play for six seconds and then stop.
-let eventDataArr = [];
 
 function onPlayerStateChange(event) {
     console.log(event);
