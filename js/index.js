@@ -4,7 +4,7 @@
 
 const API_KEY = "AIzaSyDiWp98C7yAeOmww4UPauEGc1G0yAgYSIs";
 const api = "https://www.googleapis.com/youtube/v3/playlistItems?key=AIzaSyDiWp98C7yAeOmww4UPauEGc1G0yAgYSIs";
-const part = "contentDetails,snippet";
+const part = "contentDetails,snippet,status";
 let playlistId = "";//"PLR3WiLknrVUZX033xFGw8ISMA_RdXUnNk";
 const maxResults = 50;
 let nextpageT;
@@ -22,6 +22,7 @@ const useLocalStorageBtn = document.querySelector("#use-localStorage");
 let youtubeData = null;
 let snippetData=[];
 let playlistIdTempArr = [];
+let timer;
 
 async function fetchData(){
     do{
@@ -93,6 +94,7 @@ function onYouTubeIframeAPIReady(){
 let onPlayerReadyEvent;
 function onPlayerReady(event) {
     onPlayerReadyEvent = event;
+    console.log(event);
     // videoTitleEle.addEventListener("change",function(e){
     //     console.log(e.target);
     // event.target.loadVideoById(e.target.value);
@@ -101,22 +103,42 @@ function onPlayerReady(event) {
 
   }
 
+
+
   // 5. The API calls this function when the player's state changes.
       //    The function indicates that when playing a video (state=1),
       //    the player should play for six seconds and then stop.
+let eventDataArr = [];
+
 function onPlayerStateChange(event) {
-    if(event.data === 0 ){
+    console.log(event);
+    // eventDataArr.push(event.data);
+    clearTimeout(timer);
+    timer = setTimeout(()=>{
+        if(event.data === -1){
+            let index = videoTitleEle.selectedIndex;
+            if(videoTitleEle.options[index+1].value !==undefined){
+                console.log(videoTitleEle.options[index+1].selected = "selected"); 
+                index = videoTitleEle.selectedIndex;
+                onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+            }
+        }
+    },1000)
+    if(event.data === 0){
         console.log(event.data); 
         let index = videoTitleEle.selectedIndex;
-        if(videoTitleEle.options[index+1].value !==undefined);
-        console.log(videoTitleEle.options[index+1].selected = "selected"); 
-        index = videoTitleEle.selectedIndex;
-        onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+        if(videoTitleEle.options[index+1].value !==undefined){
+            console.log(videoTitleEle.options[index+1].selected = "selected"); 
+            index = videoTitleEle.selectedIndex;
+            onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+        }
+        
     }
 }
 function stopVideo() {
     player.stopVideo();
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 /*************************主要功能分界******************************************************/
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -210,19 +232,23 @@ videoTitleEle.addEventListener("change",function(e){
 //切換上一首
 prevSongBtn.addEventListener("click",function(e){
     let index = videoTitleEle.selectedIndex;
-    if(videoTitleEle.options[index-1].value !==undefined);
-    console.log(videoTitleEle.options[index-1].selected = "selected"); 
-    index = videoTitleEle.selectedIndex;
-    onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+    if(videoTitleEle.options[index-1].value !==undefined){
+        console.log(videoTitleEle.options[index-1].selected = "selected"); 
+        index = videoTitleEle.selectedIndex;
+        onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+    }
+   
 })
 
 //切換下一首
 nextSongBtn.addEventListener("click",function(e){
     let index = videoTitleEle.selectedIndex;
-    if(videoTitleEle.options[index+1].value !==undefined);
-    console.log(videoTitleEle.options[index+1].selected = "selected"); 
-    index = videoTitleEle.selectedIndex;
-    onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+    if(videoTitleEle.options[index+1].value !==undefined){
+        console.log(videoTitleEle.options[index+1].selected = "selected"); 
+        index = videoTitleEle.selectedIndex;
+        onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+    }
+    
 })
 
 
