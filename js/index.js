@@ -19,10 +19,13 @@ const searchListBtn = document.querySelector("#search-list-btn");
 const searchListTxt = document.querySelector("#search-list");
 const orderBtn = document.querySelector("#order");
 const useLocalStorageBtn = document.querySelector("#use-localStorage");
+
 let youtubeData = null;
 let snippetData=[];
 let playlistIdTempArr = [];
 let timer;
+let oldIndex = -1;
+
 
 async function fetchData(){
     do{
@@ -119,6 +122,7 @@ function onPlayerStateChange(event) {
             if(videoTitleEle.options[index+1].value !==undefined){
                 console.log(videoTitleEle.options[index+1].selected = "selected"); 
                 index = videoTitleEle.selectedIndex;
+                changeOptionBackground(index);
                 onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
             }
         }
@@ -129,6 +133,7 @@ function onPlayerStateChange(event) {
         if(videoTitleEle.options[index+1].value !==undefined){
             console.log(videoTitleEle.options[index+1].selected = "selected"); 
             index = videoTitleEle.selectedIndex;
+            changeOptionBackground(index);
             onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
         }
         
@@ -221,9 +226,23 @@ useLocalStorageBtn.addEventListener("click",function(){
 //////**********************button area function*******************//
 ////////////////////////////////////////////////////////////////////
 
+//將選項的背景顏色修改
+function changeOptionBackground(index){
+    if(oldIndex !== index && oldIndex !== -1){
+        videoTitleEle.options[oldIndex].style.background = "linear-gradient(rgb(44, 245, 195) 80%, hwb(0 3% 97%))";
+    }
+    oldIndex = index;
+    console.log(index);
+    videoTitleEle.options[index].style.background = "yellow";
+}
+
 //點擊清單切換
 videoTitleEle.addEventListener("change",function(e){
+    e.preventDefault();
+    e.stopPropagation();
     console.log(e.target);
+    let index = videoTitleEle.selectedIndex;
+    changeOptionBackground(index);
     onPlayerReadyEvent.target.loadVideoById(e.target.value);
 
 })
@@ -234,6 +253,7 @@ prevSongBtn.addEventListener("click",function(e){
     if(videoTitleEle.options[index-1].value !==undefined){
         console.log(videoTitleEle.options[index-1].selected = "selected"); 
         index = videoTitleEle.selectedIndex;
+        changeOptionBackground(index);
         onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
     }
    
@@ -245,6 +265,7 @@ nextSongBtn.addEventListener("click",function(e){
     if(videoTitleEle.options[index+1].value !==undefined){
         console.log(videoTitleEle.options[index+1].selected = "selected"); 
         index = videoTitleEle.selectedIndex;
+        changeOptionBackground(index);
         onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
     }
     
@@ -286,7 +307,7 @@ searchListBtn.addEventListener("click",function(){
     else{
         result = snippetData.filter((item) => item.title.toLowerCase().match(videoName));
     }
-    
     console.log(result);
     appendVideoTitle(result);
 })
+

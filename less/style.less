@@ -8,12 +8,46 @@
     }
 }
 body{
-    background-image: url("../img/bg03.jpg");
-/*     background-color:black; */
-    background-repeat: no-repeat;
-    background-size:auto;
+    background-image: url("../img/bg.png");
+    background-position-x: 0px;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-size:400% 100%;
+    animation-name: backgroundChange;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function:linear;
+    transition: background 2s;
     // background-image: -webkit-cross-fade(url("../img/bg03.jpg"),url("https://github.com/DLIN131/DLIN131.github.io/img/bg04.jpg"));
 }
+// @keyframes backgroundChange{
+//     25%{
+//         // background-image: url("../img/bg02.png");
+//         background-position-x: -2560px;
+//     }
+//     50%{
+//         // background-image: url("../img/bg03.jpg");
+//         background-position-x: -5120px;
+
+//     }
+//     75%{
+//         // background-image: url("../img/bg04.jpg");
+//         background-position-x:100%; 
+
+//     }
+//     // 100%{
+//     //     // background-image: url("../img/bg01.png");
+//     //     background-position-x: 0px;
+
+//     // }
+//     // from{
+//     //     background-position-x:0%;
+//     // }
+//     // to{
+//     //     background-position-x: 100%;
+//     // }
+// }
+
 #put-playlist{
     width: 100%;
     height: 3rem;
@@ -46,6 +80,15 @@ body{
         }
     }
 }
+// #player{
+//     display: inline-block;
+// }
+// #processBar{
+//     width: 300px;
+//     height: 20px;
+//     margin: 10px auto;
+//     background-color: aqua;
+// }
 #video-title{
     width: 40rem;
     // display: block;
@@ -58,7 +101,7 @@ body{
         width: 70%;
         border: 3px solid black;
         border-radius: 20px;
-        background:linear-gradient(rgb(57, 106, 240) 80%, hwb(0 3% 97%));
+        background:linear-gradient(rgb(44, 245, 195) 80%, hwb(0 3% 97%));
         margin: 6px auto;
         text-align: center;
         transition: 0.3s;
@@ -101,7 +144,7 @@ body{
             left: -45px;
             transform: rotate(10deg);
             transition: 0.2s;
-            z-index: -5;
+            z-index: -1;
         }
         &:after{
             content: '';
@@ -114,7 +157,7 @@ body{
             right: -45px;
             transform: rotate(10deg);
             transition: 0.2s;
-            z-index: -5;
+            z-index: -1;
         }
         &:hover::before {
             left: -5px;
@@ -127,4 +170,30 @@ body{
         border-radius: 2rem;
         height: 1.5rem;
     }
+}
+
+#prevImg{
+    position: fixed;
+    top: 50%;
+    width: 2rem;
+    height: 5rem;
+    background-color: rgba(193, 248, 248,0.3);
+    text-align: center;
+    line-height: 5rem;
+    font-size: 2rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+#nextImg{
+    position: fixed;
+    right: 0;
+    top: 50%;
+    width: 2rem;
+    height: 5rem;
+    background-color: rgba(193, 248, 248,0.3);
+    text-align: center;
+    line-height: 5rem;
+    font-size: 2rem;
+    font-weight: 900;
+    cursor: pointer;
 }
