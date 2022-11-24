@@ -80,12 +80,13 @@ function setListIdDataArr(listIdData){
     if(localStorage.getItem("listIdData") !== null){
         listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
         console.log(listIdDataArr);
-    }
-    for(let i=0;i<listIdDataArr.length;i++){
-        if(listIdDataArr[i].value === playlistId){
-            return;
+        for(let i=0;i<listIdDataArr.length;i++){
+            if(listIdDataArr[i].value === playlistId){
+                return;
+            }
         }
     }
+    
     listIdDataArr.push(listIdData);
 }
 function addListIdDataToSelect(){
