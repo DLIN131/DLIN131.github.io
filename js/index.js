@@ -20,13 +20,14 @@ const searchListTxt = document.querySelector("#search-list");
 const orderBtn = document.querySelector("#order");
 const useLocalStorageBtn = document.querySelector("#use-localStorage");
 const listIdHistory = document.querySelector("#listIdHistoryCollect");
+const clearListIdHistory = document.querySelector("#clearListIdHistory");
 
 let youtubeData = null;
 let snippetData=[];
 let playlistIdTempArr = [];
 let timer;
 let oldIndex = -1;
-
+let listIdDataArr = [];
 
 async function fetchData(){
     do{
@@ -52,7 +53,8 @@ async function fetchData(){
     }while(nextpageT !== undefined) 
     console.log(snippetData);
 }
-let listIdDataArr = [];
+
+console.log(listIdDataArr);
 async function fetchListName(){
     const res = await axios.get("https://www.googleapis.com/youtube/v3/playlists",{
         params:{
@@ -85,8 +87,7 @@ function setListIdDataArr(listIdData){
                 return;
             }
         }
-    }
-    
+    }  
     listIdDataArr.push(listIdData);
 }
 function addListIdDataToSelect(){
@@ -101,6 +102,13 @@ addListIdDataToSelect();
 
 listIdHistory.addEventListener("click",function(e){
     document.getElementById("playlist-url").value = e.target.value;
+})
+
+/* 清除Id清單歷史紀錄*/
+clearListIdHistory.addEventListener("click",function(){
+    localStorage.removeItem("listIdData");
+    listIdDataArr = [];
+    listIdHistory.innerHTML = `<option value = "">null</option>`
 })
 
 
