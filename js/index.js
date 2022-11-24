@@ -81,13 +81,13 @@ function saveListIdData(){
 function setListIdDataArr(listIdData){
     if(localStorage.getItem("listIdData") !== null){
         listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
-        console.log(listIdDataArr);
         for(let i=0;i<listIdDataArr.length;i++){
             if(listIdDataArr[i].value === playlistId){
                 return;
             }
         }
     }  
+    console.log(listIdDataArr);
     listIdDataArr.push(listIdData);
 }
 function addListIdDataToSelect(){
@@ -97,8 +97,16 @@ function addListIdDataToSelect(){
     }
     
 }
-listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
-addListIdDataToSelect();
+
+function onLoadListIdData(){
+    if(JSON.parse(localStorage.getItem("listIdData") !== null)){
+        listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
+        addListIdDataToSelect();
+    }
+}
+onLoadListIdData();
+
+
 
 listIdHistory.addEventListener("click",function(e){
     document.getElementById("playlist-url").value = e.target.value;
