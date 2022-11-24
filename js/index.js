@@ -89,8 +89,11 @@ function setListIdDataArr(listIdData){
     listIdDataArr.push(listIdData);
 }
 function addListIdDataToSelect(){
-    const listData =  listIdDataArr.map(item => `<option value=${item.value}>${item.name}</option>`);
-    listIdHistory.innerHTML = listData;
+    if(listIdDataArr !== null){
+        const listData =  listIdDataArr.map(item => `<option value=${item.value}>${item.name}</option>`);
+        listIdHistory.innerHTML = listData;
+    }
+    
 }
 listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
 addListIdDataToSelect();
