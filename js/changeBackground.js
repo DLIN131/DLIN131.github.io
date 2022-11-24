@@ -10,6 +10,7 @@ let backgroundPostion = 0;
 let bgIndex = 0;
 let bgUrl = bg;
 let intV = null;
+const backgroundMoveDelay = 1200000;
 function changeBackgroundPosition(positionOffset){
     backgroundPostion += positionOffset;
     if(backgroundPostion>99.99){
@@ -31,7 +32,7 @@ function autoPlayBg(){
         //     bgIndex = 0;
         // }
         changeBackgroundPosition(33.33);
-    },5000);
+    },backgroundMoveDelay);
 }
 autoPlayBg();
 

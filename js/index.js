@@ -19,6 +19,7 @@ const searchListBtn = document.querySelector("#search-list-btn");
 const searchListTxt = document.querySelector("#search-list");
 const orderBtn = document.querySelector("#order");
 const useLocalStorageBtn = document.querySelector("#use-localStorage");
+const listIdHistory = document.querySelector("#listIdHistoryCollect");
 
 let youtubeData = null;
 let snippetData=[];
@@ -51,15 +52,59 @@ async function fetchData(){
     }while(nextpageT !== undefined) 
     console.log(snippetData);
 }
+let listIdDataArr = [];
+async function fetchListName(){
+    const res = await axios.get("https://www.googleapis.com/youtube/v3/playlists",{
+        params:{
+            part:"snippet",
+            id:playlistId,
+            key:API_KEY
+        }
+    })
+    const listIdData = {
+        name:res.data.items[0].snippet.title,
+        value:playlistId
+    }
+    // localStorage.removeItem("listIdData");
+    setListIdDataArr(listIdData);
+    saveListIdData();
+    addListIdDataToSelect();
+}
+
+ /* 使用locastorage紀錄清單Id資料 */
+{
+   
+    function saveListIdData(){
+        localStorage.setItem("listIdData",JSON.stringify(listIdDataArr));
+    }
+    function setListIdDataArr(listIdData){
+        if(localStorage.getItem("listIdData") !== null){
+            listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
+            console.log(listIdDataArr);
+        }
+        for(let i=0;i<listIdDataArr.length;i++){
+            if(listIdDataArr[i].value === playlistId){
+                return;
+            }
+        }
+        listIdDataArr.push(listIdData);
+    }
+    function addListIdDataToSelect(){
+        const listData =  listIdDataArr.map(item => `<option value=${item.value}>${item.name}</option>`);
+        listIdHistory.innerHTML = listData;
+    }
+    listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
+    addListIdDataToSelect();
+
+    listIdHistory.addEventListener("click",function(e){
+        document.getElementById("playlist-url").value = e.target.value;
+    })
+}
 
 
-
-
-
-
-/*********************/ 
-/*youtube iframe api*/ 
-/*******************/ 
+/****************************************************************/ 
+/*                         youtube iframe api                   */ 
+/****************************************************************/ 
 const tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -114,7 +159,6 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
     console.log(event);
-    // eventDataArr.push(event.data);
     clearTimeout(timer);
     timer = setTimeout(()=>{
         if(event.data === -1){
@@ -184,6 +228,7 @@ function checkPlaylistIdExist(playlistId,idArr){
 async function main(){
     loadImgEle.style.display = "inline";
     searchBtn.disabled = true;
+    await fetchListName();
     await fetchData();
     loadImgEle.style.display = "none";
     searchBtn.disabled = false;
