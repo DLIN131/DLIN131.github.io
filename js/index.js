@@ -72,34 +72,32 @@ async function fetchListName(){
 }
 
  /* 使用locastorage紀錄清單Id資料 */
-{
    
-    function saveListIdData(){
-        localStorage.setItem("listIdData",JSON.stringify(listIdDataArr));
-    }
-    function setListIdDataArr(listIdData){
-        if(localStorage.getItem("listIdData") !== null){
-            listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
-            console.log(listIdDataArr);
-        }
-        for(let i=0;i<listIdDataArr.length;i++){
-            if(listIdDataArr[i].value === playlistId){
-                return;
-            }
-        }
-        listIdDataArr.push(listIdData);
-    }
-    function addListIdDataToSelect(){
-        const listData =  listIdDataArr.map(item => `<option value=${item.value}>${item.name}</option>`);
-        listIdHistory.innerHTML = listData;
-    }
-    listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
-    addListIdDataToSelect();
-
-    listIdHistory.addEventListener("click",function(e){
-        document.getElementById("playlist-url").value = e.target.value;
-    })
+function saveListIdData(){
+    localStorage.setItem("listIdData",JSON.stringify(listIdDataArr));
 }
+function setListIdDataArr(listIdData){
+    if(localStorage.getItem("listIdData") !== null){
+        listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
+        console.log(listIdDataArr);
+    }
+    for(let i=0;i<listIdDataArr.length;i++){
+        if(listIdDataArr[i].value === playlistId){
+            return;
+        }
+    }
+    listIdDataArr.push(listIdData);
+}
+function addListIdDataToSelect(){
+    const listData =  listIdDataArr.map(item => `<option value=${item.value}>${item.name}</option>`);
+    listIdHistory.innerHTML = listData;
+}
+listIdDataArr = JSON.parse(localStorage.getItem("listIdData"));
+addListIdDataToSelect();
+
+listIdHistory.addEventListener("click",function(e){
+    document.getElementById("playlist-url").value = e.target.value;
+})
 
 
 /****************************************************************/ 
