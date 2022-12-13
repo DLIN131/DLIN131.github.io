@@ -8,13 +8,20 @@
         <link rel="stylesheet/less" type="text/css" href="./less/style.less" />
     </head>
     <body>
-        <div class="listIdHistory">
-            <p>清單Id紀錄 <button id="clearListIdHistory">清除紀錄</button></p> 
-            <select name="listIdHistoryCollect" id="listIdHistoryCollect">
-                <option value="">null</option>
-            </select>
+        <div class="nav-bar">
+            <div class="nav-item">
+                <a href="/">聽歌</a>
+                <a href="#">其他</a>
+            </div>
         </div>
+        
         <div id="put-playlist">
+            <div class="listIdHistory">
+                <p>清單Id紀錄 <button id="clearListIdHistory">清除紀錄</button></p> 
+                <select name="listIdHistoryCollect" id="listIdHistoryCollect">
+                    <option value="">null</option>
+                </select>
+            </div>
             <div>
                 <input id="playlist-url" type="text" placeholder="put youtubeplaylistId here" value="PLR3WiLknrVUZX033xFGw8ISMA_RdXUnNk">
                 <button id="search">append playlist</button>
@@ -35,7 +42,7 @@
             <button id="use-localStorage">過往清單</button>
         </div>
         <div id="select-area">
-            <select name="videoTitle" id="video-title" size="10">
+            <select name="videoTitle" id="video-title" size="7">
                 <!-- <option value="UQgv8MBxCuU">刀劍神域十周年紀念pv</option>
                 <option value="aPKlAGohXvg"> PaⅢ.AGITATION / 初音ミク×GUMI×鏡音リン</option>
                 <option value="PB4VaN_qV3Q">1</option> -->
@@ -46,7 +53,6 @@
         <div id="nextImg">
             >
         </div >
-        
 
 
 

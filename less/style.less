@@ -6,18 +6,21 @@
     button{
         cursor: pointer;
     }
+    list-style: none;
+    text-decoration: none;
+
 }
 body{
-    background-image: url("../img/bg.png");
+    background-image: url("../img/bg04.jpg");
     background-position-x: 0px;
     background-repeat:no-repeat;
     background-attachment:fixed;
-    background-size:400% 100%;
+    background-size:100% 100%;
     animation-name: backgroundChange;
     animation-duration: 10s;
     animation-iteration-count: infinite;
     animation-timing-function:linear;
-    transition: background 2s;
+    transition: background 0.5s ease-in;
     // background-image: -webkit-cross-fade(url("../img/bg03.jpg"),url("https://github.com/DLIN131/DLIN131.github.io/img/bg04.jpg"));
 }
 // @keyframes backgroundChange{
@@ -47,6 +50,26 @@ body{
 //     //     background-position-x: 100%;
 //     // }
 // }
+.nav-bar{
+    width: 100%;
+    height: 5vh;
+    line-height: 5vh;
+    background-color: rgba(77, 248, 191,0.5);
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+   &>.nav-item{
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    &>a{
+        color: #070a27;
+    }
+   }
+}
+
+
 .listIdHistory{
     position: absolute;
     left: 4vmin;
@@ -107,7 +130,7 @@ body{
     margin: 0 auto;
     // background: linear-gradient(#f8d7d7, #737cdb);
     background: none;
-    
+    // height: 50vh;
     &>option{
         height: 50px;
         width: 70%;

@@ -18,10 +18,11 @@ const searchBtn = document.querySelector("#search");
 const searchListBtn = document.querySelector("#search-list-btn");
 const searchListTxt = document.querySelector("#search-list");
 const orderBtn = document.querySelector("#order");
-const useLocalStorageBtn = document.querySelector("#use-localStorage");
+const useLocalStorageBtn = document.querySelector("#use-localStorage"); 
 const listIdHistory = document.querySelector("#listIdHistoryCollect");
 const clearListIdHistory = document.querySelector("#clearListIdHistory");
 
+let orderFlag = true;
 let youtubeData = null;
 let snippetData=[];
 let playlistIdTempArr = [];
@@ -54,7 +55,7 @@ async function fetchData(){
     console.log(snippetData);
 }
 
-console.log(listIdDataArr);
+// console.log(listIdDataArr);
 async function fetchListName(){
     const res = await axios.get("https://www.googleapis.com/youtube/v3/playlists",{
         params:{
@@ -74,7 +75,6 @@ async function fetchListName(){
 }
 
  /* 使用locastorage紀錄清單Id資料 */
-   
 function saveListIdData(){
     localStorage.setItem("listIdData",JSON.stringify(listIdDataArr));
 }
@@ -87,7 +87,7 @@ function setListIdDataArr(listIdData){
             }
         }
     }  
-    console.log(listIdDataArr);
+    // console.log(listIdDataArr);
     listIdDataArr.push(listIdData);
 }
 function addListIdDataToSelect(){
@@ -176,27 +176,29 @@ function onPlayerReady(event) {
       //    the player should play for six seconds and then stop.
 
 function onPlayerStateChange(event) {
-    console.log(event);
+    // console.log(event);
     clearTimeout(timer);
     timer = setTimeout(()=>{
         if(event.data === -1){
             let index = videoTitleEle.selectedIndex;
             if(videoTitleEle.options[index+1].value !==undefined){
-                console.log(videoTitleEle.options[index+1].selected = "selected"); 
+                videoTitleEle.options[index+1].selected = "selected"; 
                 index = videoTitleEle.selectedIndex;
                 changeOptionBackground(index);
                 onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+                updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
             }
         }
     },1000)
     if(event.data === 0){
-        console.log(event.data); 
+        // console.log(event.data); 
         let index = videoTitleEle.selectedIndex;
         if(videoTitleEle.options[index+1].value !==undefined){
-            console.log(videoTitleEle.options[index+1].selected = "selected"); 
+            videoTitleEle.options[index+1].selected = "selected"; 
             index = videoTitleEle.selectedIndex;
             changeOptionBackground(index);
             onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+            updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
         }
         
     }
@@ -221,10 +223,10 @@ function stopVideo() {
 
 
 
-//建立播放清單到select
+//建立播放清單到select區域
 function appendVideoTitle(mapData){
     videoTitleEle.style.display = "block";
-    let optionMap = mapData.map(item => `<option value=${item.resourceId.videoId}>${item.position+'.'+item.title}</option>`);
+    let optionMap = mapData.map(item => `<option value=${item.resourceId.videoId} index=${item.position}>${item.position+'.'+item.title}</option>`);
     console.log(optionMap);
     videoTitleEle.innerHTML = optionMap;
 }
@@ -242,16 +244,28 @@ function checkPlaylistIdExist(playlistId,idArr){
 }
 
 
+
+
+
+
+
+
 //主要執行獲取資料函式與一些基本設定
 async function main(){
     loadImgEle.style.display = "inline";
     searchBtn.disabled = true;
-    await fetchListName();
-    await fetchData();
+    try{
+        await fetchListName();
+        await fetchData();
+    }catch(e){
+        // console.log(e);
+        alert("the playlist id is not exist or uncorrect");
+    }
+    
     loadImgEle.style.display = "none";
     searchBtn.disabled = false;
-    updateLocalStorage(snippetData);
-    console.log(snippetData.length);
+    updateLocalStorage("playlist",snippetData);
+    // console.log(snippetData.length);
     nextSongBtn.style.display = prevSongBtn.style.display = randomBtn.style.display = "inline";
     appendVideoTitle(snippetData);
    
@@ -268,21 +282,47 @@ searchBtn.addEventListener("click",function(){
 })
 
 
+
+
+
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////
 //***********************************localStorage******************//
 /////////////////////////////////////////////////////////////////////
-function updateLocalStorage(playlist){
-    localStorage.setItem("playlist",JSON.stringify(playlist));
-    console.log("localstorage");
+function updateLocalStorage(keyName ,value){
+    localStorage.setItem(keyName,JSON.stringify(value));
+    // console.log("localstorage");
 }
-function useLocalStorageItem(){
-    snippetData = JSON.parse(localStorage.getItem("playlist"));
-    console.log("localStorageList"+snippetData);
+function useLocalStorageItem(keyName){
+    snippetData = JSON.parse(localStorage.getItem(keyName));
+    // console.log("localStorageList"+snippetData);
     appendVideoTitle(snippetData);
+    let index = localStorage.getItem("listIndex");
+    videoTitleEle.options[index].selected = "selected";
+    changeOptionBackground(index);
+    onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
 }
 useLocalStorageBtn.addEventListener("click",function(){
-    useLocalStorageItem();
+    useLocalStorageItem("playlist");
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /////////////////////////////////////////////////////////////////////
@@ -295,44 +335,48 @@ function changeOptionBackground(index){
         videoTitleEle.options[oldIndex].style.background = "linear-gradient(rgb(44, 245, 195) 80%, hwb(0 3% 97%))";
     }
     oldIndex = index;
-    console.log(index);
+    // console.log(index);
     videoTitleEle.options[index].style.background = "yellow";
 }
 
 //點擊清單切換
 videoTitleEle.addEventListener("change",function(e){
     e.preventDefault();
-    e.stopPropagation();
     console.log(e.target);
     let index = videoTitleEle.selectedIndex;
     changeOptionBackground(index);
     onPlayerReadyEvent.target.loadVideoById(e.target.value);
-
+    updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
+    
 })
 
 //切換上一首
-prevSongBtn.addEventListener("click",function(e){
+function changeToPrevSong(e){
     let index = videoTitleEle.selectedIndex;
     if(videoTitleEle.options[index-1].value !==undefined){
-        console.log(videoTitleEle.options[index-1].selected = "selected"); 
+        videoTitleEle.options[index-1].selected = "selected"; 
         index = videoTitleEle.selectedIndex;
         changeOptionBackground(index);
         onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+        updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
+        
     }
-   
-})
+}
+prevSongBtn.addEventListener("click",changeToPrevSong);
 
 //切換下一首
-nextSongBtn.addEventListener("click",function(e){
+function changeToNextSong(e){
     let index = videoTitleEle.selectedIndex;
     if(videoTitleEle.options[index+1].value !==undefined){
-        console.log(videoTitleEle.options[index+1].selected = "selected"); 
+        videoTitleEle.options[index+1].selected = "selected"; 
         index = videoTitleEle.selectedIndex;
         changeOptionBackground(index);
         onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+        updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
+        
     }
-    
-})
+}
+nextSongBtn.addEventListener("click",changeToNextSong);
 
 
 //隨機排列
@@ -348,12 +392,15 @@ let shuffleFlag = false;
 randomBtn.addEventListener("click",function(){
     shuffleArr = snippetData.slice(0);
     shuffleFlag = true;
+    orderFlag = false;
     Shuffle(shuffleArr);
-    appendVideoTitle(shuffleArr);    
+    appendVideoTitle(shuffleArr); 
 })
 //順序排列
 orderBtn.addEventListener("click",function(){
-    appendVideoTitle(snippetData);
+    if(!orderFlag){
+        appendVideoTitle(snippetData);
+    }
     shuffleFlag = false;
 })
 
@@ -372,5 +419,32 @@ searchListBtn.addEventListener("click",function(){
     }
     console.log(result);
     appendVideoTitle(result);
+})
+
+
+/********************************************************************************************/
+/*                                       鍵盤控制                                           */
+/*******************************************************************************************/
+
+document.addEventListener("keydown",function(e){
+    console.log(e.key);
+    switch(e.key){
+        case "w":
+            try {
+                changeToPrevSong();
+            } catch (error) {
+                console.log(error);
+            }
+            break;
+        case "s":
+            try {
+                changeToNextSong();
+            } catch (error) {
+                console.log(error);
+            }
+            break;
+        default:
+            break;
+    }
 })
 
