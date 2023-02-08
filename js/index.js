@@ -428,6 +428,8 @@ searchListBtn.addEventListener("click",function(){
 
 document.addEventListener("keydown",function(e){
     console.log(e.key);
+    let currentTime = onPlayerReadyEvent.target.getCurrentTime();
+    let volume = onPlayerReadyEvent.target.getVolume();
     switch(e.key){
         case "w":
             try {
@@ -439,6 +441,40 @@ document.addEventListener("keydown",function(e){
         case "s":
             try {
                 changeToNextSong();
+            } catch (error) {
+                console.log(error);
+            }
+            break;
+        case "a":
+            try {
+                currentTime-=5;
+                onPlayerReadyEvent.target.seekTo(currentTime);
+            } catch (error) {
+                console.log(error);
+            }
+            break;
+        case "d":
+            try {
+                currentTime+=5;
+                onPlayerReadyEvent.target.seekTo(currentTime);
+            } catch (error) {
+                console.log(error);
+            }
+            break;
+        case "ArrowUp":
+            try {
+                e.preventDefault();
+                volume+=5;
+                onPlayerReadyEvent.target.setVolume(volume);
+            } catch (error) {
+                console.log(error);
+            }
+            break;
+        case "ArrowDown":
+            try {
+                e.preventDefault();
+                volume-=5;
+                onPlayerReadyEvent.target.setVolume(volume);
             } catch (error) {
                 console.log(error);
             }
