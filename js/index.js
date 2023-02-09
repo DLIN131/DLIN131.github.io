@@ -257,7 +257,7 @@ async function main(){
 }
 
 //appendPlaylistEvent
-searchBtn.addEventListener("click",function(){
+searchBtn.addEventListener("click",function(e){
     const PLID = document.getElementById("playlist-url").value;
     if(!checkPlaylistIdExist(PLID,playlistIdTempArr)){
         playlistId = PLID;

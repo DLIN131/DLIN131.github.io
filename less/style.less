@@ -137,16 +137,16 @@ body{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 10px;
+    margin: 3vmin;
     // background:linear-gradient(rgb(0, 0, 0)  ,rgba(255,255,255) );
     #playlist-url{
         width: 25rem;
         height: 2rem;
-        transition: 0.3s;
     }
     #search{
         width: 10rem;
         height: 2rem;
+        margin-top: 1vmin;
         background:none;
         font-size: 1.1rem;
         box-shadow: 2px 1px 5px black;
@@ -297,12 +297,20 @@ body{
 }
 
 @media screen and (max-width: 450px){
+    #put-playlist{
+        position: relative;
+    }
     .listIdHistory{
+        position: absolute;
         margin-left: 25%;
     }
     .add-playlist-area{
-        margin-top:15vh;
+       position: absolute;
+       top: 6vh;
     }
+    // #put-playlist{
+    //     margin-top:20px;
+    // }
     #player{
         margin-top: 8vh;
         width: 80%;
