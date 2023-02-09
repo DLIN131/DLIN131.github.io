@@ -4,7 +4,8 @@ const nextImgBtn = document.querySelector("#nextImg");
 /*                            控制網頁背景圖更換                                           */
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-let bgArr = ["../img/bg01.png","../img/bg02.png","../img/bg03.jpg","../img/bg04.jpg"];
+// let bgArr = ["../img/bg01.png","../img/bg02.png","../img/bg03.jpg","../img/bg04.jpg"];
+let bgArr = ["bg01","bg02","bg03","bg04"];
 let bg = "url(\"../img/bg.png\")"
 let backgroundPostion = 0;
 let bgIndex = bgArr.length-1;
@@ -41,9 +42,10 @@ prevImgBtn.addEventListener("click",function(){
     if(bgIndex < 0){
         bgIndex = bgArr.length-1;
     }
-    let bgUrl = `url(\"${bgArr[bgIndex]}\")`;
+    // let bgUrl = `url(\"${bgArr[bgIndex]}\")`;
     // console.log(bgUrl);
-    document.body.style.backgroundImage = bgUrl;
+    // document.body.style.backgroundImage = bgUrl;
+    document.body.className = `${bgArr[bgIndex]}`;
     // clearInterval(intV);
     // changeBackgroundPosition(-33.33)
     // autoPlayBg();
@@ -53,9 +55,10 @@ nextImgBtn.addEventListener("click",function(){
     if(bgIndex>bgArr.length-1){
         bgIndex = 0;
     }
-    let bgUrl = `url(\"${bgArr[bgIndex]}\")`;
+    // let bgUrl = `url(\"${bgArr[bgIndex]}\")`;
     // console.log(bgUrl);
-    document.body.style.backgroundImage = bgUrl;
+    // document.body.style.backgroundImage = bgUrl;
+    document.body.className = `${bgArr[bgIndex]}`;
     // clearInterval(intV);
     // changeBackgroundPosition(33.33);
     // autoPlayBg();

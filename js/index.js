@@ -180,27 +180,12 @@ function onPlayerStateChange(event) {
     clearTimeout(timer);
     timer = setTimeout(()=>{
         if(event.data === -1){
-            let index = videoTitleEle.selectedIndex;
-            if(videoTitleEle.options[index+1].value !==undefined){
-                videoTitleEle.options[index+1].selected = "selected"; 
-                index = videoTitleEle.selectedIndex;
-                changeOptionBackground(index);
-                onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
-                updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
-            }
+            changeToNextSong(event);
         }
     },1000)
     if(event.data === 0){
         // console.log(event.data); 
-        let index = videoTitleEle.selectedIndex;
-        if(videoTitleEle.options[index+1].value !==undefined){
-            videoTitleEle.options[index+1].selected = "selected"; 
-            index = videoTitleEle.selectedIndex;
-            changeOptionBackground(index);
-            onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
-            updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
-        }
-        
+        changeToNextSong(event);
     }
 }
 function stopVideo() {
@@ -319,12 +304,6 @@ useLocalStorageBtn.addEventListener("click",function(){
 
 
 
-
-
-
-
-
-
 /////////////////////////////////////////////////////////////////////
 //////**********************button area function*******************//
 ////////////////////////////////////////////////////////////////////
@@ -332,11 +311,12 @@ useLocalStorageBtn.addEventListener("click",function(){
 //將選項的背景顏色修改
 function changeOptionBackground(index){
     if(oldIndex !== index && oldIndex !== -1){
-        videoTitleEle.options[oldIndex].style.background = "linear-gradient(rgb(44, 245, 195) 80%, hwb(0 3% 97%))";
+        // videoTitleEle.options[oldIndex].style.background = "linear-gradient(to bottom, rgba(255, 255, 255,.9) 80%,rgba(102, 102, 102, 0.5) 20%)";
+        videoTitleEle.options[oldIndex].className = "option-background";
     }
     oldIndex = index;
     // console.log(index);
-    videoTitleEle.options[index].style.background = "yellow";
+    videoTitleEle.options[index].className = "option-focus-background";
 }
 
 //點擊清單切換
@@ -353,7 +333,7 @@ videoTitleEle.addEventListener("change",function(e){
 //切換上一首
 function changeToPrevSong(e){
     let index = videoTitleEle.selectedIndex;
-    if(videoTitleEle.options[index-1].value !==undefined){
+    if(videoTitleEle.options[index-1] !==undefined){
         videoTitleEle.options[index-1].selected = "selected"; 
         index = videoTitleEle.selectedIndex;
         changeOptionBackground(index);
@@ -361,19 +341,32 @@ function changeToPrevSong(e){
         updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
         
     }
+    else{
+        index = 0;
+        videoTitleEle.options[index].selected = "selected";
+        changeOptionBackground(index);
+        onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+        updateLocalStorage("listIndex",videoTitleEle.selectedIndex);   
+    }
 }
 prevSongBtn.addEventListener("click",changeToPrevSong);
 
 //切換下一首
 function changeToNextSong(e){
     let index = videoTitleEle.selectedIndex;
-    if(videoTitleEle.options[index+1].value !==undefined){
+    if(videoTitleEle.options[index+1] !==undefined){
         videoTitleEle.options[index+1].selected = "selected"; 
         index = videoTitleEle.selectedIndex;
         changeOptionBackground(index);
         onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
-        updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
-        
+        updateLocalStorage("listIndex",videoTitleEle.selectedIndex);       
+    }
+    else{
+        index = 0;
+        videoTitleEle.options[index].selected = "selected";
+        changeOptionBackground(index);
+        onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+        updateLocalStorage("listIndex",videoTitleEle.selectedIndex);   
     }
 }
 nextSongBtn.addEventListener("click",changeToNextSong);

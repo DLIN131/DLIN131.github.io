@@ -23,6 +23,54 @@ body{
     transition: background 0.5s ease-in;
     // background-image: -webkit-cross-fade(url("../img/bg03.jpg"),url("https://github.com/DLIN131/DLIN131.github.io/img/bg04.jpg"));
 }
+.bg01{
+    background-image: url("../img/bg01.png");
+    background-position-x: 0px;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-size:100% 100%;
+    animation-name: backgroundChange;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function:linear;
+    transition: background 0.5s ease-in;
+}
+.bg02{
+    background-image: url("../img/bg02.png");
+    background-position-x: 0px;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-size:100% 100%;
+    animation-name: backgroundChange;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function:linear;
+    transition: background 0.5s ease-in;
+}
+.bg03{
+    background-image: url("../img/bg03.jpg");
+    background-position-x: 0px;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-size:100% 100%;
+    animation-name: backgroundChange;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function:linear;
+    transition: background 0.5s ease-in;
+}
+.bg04{
+    background-image: url("../img/bg04.jpg");
+    background-position-x: 0px;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-size:100% 100%;
+    animation-name: backgroundChange;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function:linear;
+    transition: background 0.5s ease-in;
+}
 // @keyframes backgroundChange{
 //     25%{
 //         // background-image: url("../img/bg02.png");
@@ -135,8 +183,14 @@ body{
         height: 50px;
         width: 70%;
         border: 3px solid black;
-        border-radius: 20px;
-        background:linear-gradient(rgb(44, 245, 195) 80%, hwb(0 3% 97%));
+        // border-radius: 20px;
+        border-top-left-radius: 40px;
+        border-bottom-right-radius: 40px;
+        border-top-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        // background:linear-gradient(rgb(44, 245, 195) 80%, hwb(0 3% 97%));
+        // background:linear-gradient(rgb(255, 255, 255) 80%, hwb(0 73% 27%));
+        background:linear-gradient(to bottom, rgba(255, 255, 255,.9) 80%,rgba(102, 102, 102, 0.5) 20%);
         margin: 6px auto;
         text-align: center;
         transition: 0.3s;
@@ -147,11 +201,20 @@ body{
         text-overflow:ellipsis;
         padding-top: 5px;
         &:hover{
+            background:linear-gradient(to bottom, rgba(102, 102, 102,.9) 80%,rgba(255, 255, 255, 0.5) 20%);
+            // color: white;
             width: 80%;
             font-size: 20px;
         }
     }
 }
+.option-background{
+    background:linear-gradient(to bottom, rgba(255, 255, 255,.9) 80%,rgba(102, 102, 102, 0.5) 20%);
+}
+.option-focus-background{
+    background:linear-gradient(to bottom, rgba(102, 102, 102,.9) 80%,rgba(255, 255, 255, 0.5) 20%) !important;
+}
+
 #button-area{
     margin: 10px;
     &>button{
@@ -231,4 +294,24 @@ body{
     font-size: 2rem;
     font-weight: 900;
     cursor: pointer;
+}
+
+@media screen and (max-width: 450px){
+    .listIdHistory{
+        margin-left: 25%;
+    }
+    .add-playlist-area{
+        margin-top:15vh;
+    }
+    #player{
+        margin-top: 8vh;
+        width: 80%;
+    }
+    #video-title{
+        width: 80%;
+        height: 50vh;
+        &>option{
+            height: 10%;
+        }
+    }
 }
