@@ -420,7 +420,7 @@ searchListBtn.addEventListener("click",function(){
 /*******************************************************************************************/
 
 document.addEventListener("keydown",function(e){
-    console.log(e.key);
+    // console.lo    g(e.key);
     let currentTime = onPlayerReadyEvent.target.getCurrentTime();
     let volume = onPlayerReadyEvent.target.getVolume();
     switch(e.key){
@@ -468,6 +468,19 @@ document.addEventListener("keydown",function(e){
                 e.preventDefault();
                 volume-=5;
                 onPlayerReadyEvent.target.setVolume(volume);
+            } catch (error) {
+                console.log(error);
+            }
+            break;
+        case " ":
+            try {
+                e.preventDefault();
+                if(onPlayerReadyEvent.target.getPlayerState() === 1){
+                    onPlayerReadyEvent.target.pauseVideo();
+                }
+                else if(onPlayerReadyEvent.target.getPlayerState() === 2){
+                    onPlayerReadyEvent.target.playVideo();
+                }
             } catch (error) {
                 console.log(error);
             }
