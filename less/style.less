@@ -297,29 +297,33 @@ body{
 }
 
 @media screen and (max-width: 450px){
-    #put-playlist{
-        position: relative;
+    #put-playlist {
+        width: auto;
+        display: flex ; 
+        flex-flow: column;
+        align-items: center;
+        justify-content:space-evenly;
+        gap: 0.25rem;
+        .listIdHistory{
+            position: relative;
+            margin-top: 4rem;
+            left: 0;
+        }
+        #playlist-url{
+            width: 20rem;
+            height: 2rem;
+        }
     }
-    .listIdHistory{
-        position: absolute;
-        margin-left: 25%;
-    }
-    .add-playlist-area{
-       position: absolute;
-       top: 6vh;
-    }
-    // #put-playlist{
-    //     margin-top:20px;
-    // }
     #player{
-        margin-top: 8vh;
+        margin-top: 5rem;
         width: 80%;
+        height: 30vh;
     }
     #video-title{
         width: 80%;
-        height: 50vh;
-        &>option{
-            height: 10%;
-        }
+        // height: 50vh;
+        // &>option{
+        //     height: 10%;
+        // }
     }
 }
