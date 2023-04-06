@@ -21,6 +21,10 @@ const orderBtn = document.querySelector("#order");
 const useLocalStorageBtn = document.querySelector("#use-localStorage"); 
 const listIdHistory = document.querySelector("#listIdHistoryCollect");
 const clearListIdHistory = document.querySelector("#clearListIdHistory");
+const progress = document.querySelector(".progress");
+const progressBar = document.querySelector(".progress-bar");
+const endTime = document.querySelector(".end-time");
+const startTime = document.querySelector(".start-time");
 
 let orderFlag = true;
 let youtubeData = null;
@@ -42,7 +46,7 @@ async function fetchData(){
         }
     })
     youtubeData = res.data;
-    console.log(youtubeData);
+    // console.log(youtubeData);
     for(let i=0;i<youtubeData.items.length;i++){
         if(youtubeData.items[i].snippet.title !== "Deleted video" 
         && youtubeData.items[i].snippet.title !=="Private video"){
@@ -131,7 +135,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 
 
-var player;
+let player;
 let videoId = "";
 
 function onYouTubeIframeAPIReady(){
@@ -166,7 +170,6 @@ function onPlayerReady(event) {
     // event.target.loadVideoById(e.target.value);
     
     // })
-
   }
 
 
@@ -187,10 +190,62 @@ function onPlayerStateChange(event) {
         // console.log(event.data); 
         changeToNextSong(event);
     }
+    else if(event.data == YT.PlayerState.PLAYING){
+        resetProgress(player.getCurrentTime());
+        clearInterval(timer)
+        timer = setInterval(function() {
+            let currentTime = player.getCurrentTime();
+            let duration = player.getDuration();
+            progressAutoRun(currentTime,duration);
+            // console.log(currentTime);
+          }, 1000);
+        
+    }
 }
 function stopVideo() {
     player.stopVideo();
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+/*****************************調整進度*****************************************************/
+///////////////////////////////////////////////////////////////////////////////////////////
+function setProgress(e){
+     const duration =  onPlayerReadyEvent.target.getDuration();
+     
+     console.log(duration);
+     const progressBarWidth = progressBar.offsetWidth;
+     const clickPosition = e.clientX - progressBar.offsetLeft;
+     const clickPercentage = (clickPosition / progressBarWidth) * 100;
+     progress.style.width = `${clickPercentage}%`;
+     onPlayerReadyEvent.target.seekTo(duration*(clickPercentage/100));
+     const minute = Math.floor((duration*(clickPercentage/100))/60);
+     const second = Math.floor(duration*(clickPercentage/100)-60*minute);
+     startTime.innerHTML = `${minute}:${second.toString().padStart(2,'0')}`
+}
+
+function progressAutoRun(currentTime,duration){
+    const progressPercentage = (currentTime / duration) * 100;
+    progress.style.width = `${progressPercentage}%`;
+    const minute = Math.floor((duration*(progressPercentage/100))/60);
+    const second = Math.floor(duration*(progressPercentage/100)-60*minute);
+    startTime.innerHTML = `${minute}:${second.toString().padStart(2,'0')}`
+}
+
+function  resetProgress(currentTime){
+    const duration = onPlayerReadyEvent.target.getDuration();
+    const minute = Math.floor((duration/60));
+    const second = Math.floor(duration-60*minute);
+    endTime.innerHTML = `${minute}:${second.toString().padStart(2,'0')}`
+    const progressPercentage = (currentTime / duration) * 100;
+    progress.style.width = `${progressPercentage}%`;
+    
+}
+
+progressBar.addEventListener("click",setProgress)
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 /*************************主要功能分界******************************************************/
@@ -312,7 +367,11 @@ useLocalStorageBtn.addEventListener("click",function(){
 function changeOptionBackground(index){
     if(oldIndex !== index && oldIndex !== -1){
         // videoTitleEle.options[oldIndex].style.background = "linear-gradient(to bottom, rgba(255, 255, 255,.9) 80%,rgba(102, 102, 102, 0.5) 20%)";
-        videoTitleEle.options[oldIndex].className = "option-background";
+        try {
+            videoTitleEle.options[oldIndex].className = "option-background";    
+        } catch (error) {
+            oldIndex = index;
+        }
     }
     oldIndex = index;
     // console.log(index);
@@ -326,7 +385,8 @@ videoTitleEle.addEventListener("change",function(e){
     let index = videoTitleEle.selectedIndex;
     changeOptionBackground(index);
     onPlayerReadyEvent.target.loadVideoById(e.target.value);
-    updateLocalStorage("listIndex",videoTitleEle.selectedIndex);      
+    updateLocalStorage("listIndex",videoTitleEle.selectedIndex); 
+        
     
 })
 
@@ -348,18 +408,20 @@ function changeToPrevSong(e){
         onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
         updateLocalStorage("listIndex",videoTitleEle.selectedIndex);   
     }
+   
 }
 prevSongBtn.addEventListener("click",changeToPrevSong);
 
 //切換下一首
 function changeToNextSong(e){
     let index = videoTitleEle.selectedIndex;
+    
     if(videoTitleEle.options[index+1] !==undefined){
         videoTitleEle.options[index+1].selected = "selected"; 
         index = videoTitleEle.selectedIndex;
         changeOptionBackground(index);
         onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
-        updateLocalStorage("listIndex",videoTitleEle.selectedIndex);       
+        updateLocalStorage("listIndex",videoTitleEle.selectedIndex);
     }
     else{
         index = 0;
@@ -368,6 +430,8 @@ function changeToNextSong(e){
         onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
         updateLocalStorage("listIndex",videoTitleEle.selectedIndex);   
     }
+    
+
 }
 nextSongBtn.addEventListener("click",changeToNextSong);
 
@@ -402,7 +466,7 @@ orderBtn.addEventListener("click",function(){
 //搜尋歌曲
 searchListBtn.addEventListener("click",function(){
     const videoName = searchListTxt.value.trim().toLowerCase();
-    console.log(videoName);
+    // console.log(videoName);
     let result;
     if(shuffleFlag){
         result = shuffleArr.filter((item) => item.title.toLowerCase().match(videoName));
@@ -410,7 +474,7 @@ searchListBtn.addEventListener("click",function(){
     else{
         result = snippetData.filter((item) => item.title.toLowerCase().match(videoName));
     }
-    console.log(result);
+    // console.log(result);
     appendVideoTitle(result);
 })
 
@@ -420,7 +484,6 @@ searchListBtn.addEventListener("click",function(){
 /*******************************************************************************************/
 
 document.addEventListener("keydown",function(e){
-    // console.lo    g(e.key);
     let currentTime = onPlayerReadyEvent.target.getCurrentTime();
     let volume = onPlayerReadyEvent.target.getVolume();
     switch(e.key){

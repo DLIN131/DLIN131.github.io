@@ -28,10 +28,18 @@
                 <span id="load-img"><img src="./img/hutoa01-unscreen.gif" alt=""></span> 
             </div> 
         </div>
-        <!-- <div id="processBar">
-            <div id="videoProcess"></div>
-        </div> -->
+
+    
+        <input type="checkbox" id="checkDisplayPlayer" checked="checked"><span>顯示</span>
         <div id="player"></div>
+
+        <div class="progress-area">
+            <span class="start-time">0:00</span>
+            <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress"></div>
+            </div>
+            <span class="end-time">0:00</span>
+        </div>
         <div id="button-area">
             <button id="prev-song">上一首</button>
             <button id="next-song">下一首</button>
@@ -41,6 +49,7 @@
             <button id="search-list-btn">搜尋</button>
             <button id="use-localStorage">過往清單</button>
         </div>
+        
         <div id="select-area">
             <select name="videoTitle" id="video-title" size="7">
                 <!-- <option value="UQgv8MBxCuU">刀劍神域十周年紀念pv</option>
