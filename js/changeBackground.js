@@ -1,11 +1,14 @@
 const prevImgBtn = document.querySelector("#prevImg");
 const nextImgBtn = document.querySelector("#nextImg");
+const body = document.body;
+const after = window.getComputedStyle(body, '::after');
+body.style.setProperty("--after-bg-height",'50%')
 ////////////////////////////////////////////////////////////////////////////////////////////
 /*                            控制網頁背景圖更換                                           */
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // let bgArr = ["../img/bg01.png","../img/bg02.png","../img/bg03.jpg","../img/bg04.jpg"];
-let bgArr = ["bg01","bg02","bg03","bg04"];
+let bgArr = ["bg01","bg02","bg03","bg04","bg-blue"];
 let bg = "url(\"../img/bg.png\")"
 let backgroundPostion = 0;
 let bgIndex = bgArr.length-1;
@@ -63,3 +66,21 @@ nextImgBtn.addEventListener("click",function(){
     // changeBackgroundPosition(33.33);
     // autoPlayBg();
 })
+ document.addEventListener("wheel",function(e){
+    let height = parseInt(after.getPropertyValue('height'));
+    console.log(document.body.scrollHeight);
+    if (e.deltaY > 0 && height < document.body.scrollHeight) { //向下滾動
+        height += 40;
+        if (height > document.body.scrollHeight) {
+            height = document.body.scrollHeight;
+        }
+        body.style.setProperty("--after-bg-height",`${height}px`)
+
+      } else if (e.deltaY < 0 && height >= 0) { //向上滾動
+        height -= 40;
+        if (height < 0) {
+            height = 0;
+        }
+        body.style.setProperty("--after-bg-height",`${height}px`);
+      }
+ })

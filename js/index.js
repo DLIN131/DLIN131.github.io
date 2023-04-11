@@ -213,7 +213,7 @@ function stopVideo() {
 function setProgress(e){
      const duration =  onPlayerReadyEvent.target.getDuration();
      
-     console.log(duration);
+    //  console.log(duration);
      const progressBarWidth = progressBar.offsetWidth;
      const clickPosition = e.clientX - progressBar.offsetLeft;
      const clickPercentage = (clickPosition / progressBarWidth) * 100;
@@ -267,7 +267,7 @@ progressBar.addEventListener("click",setProgress)
 function appendVideoTitle(mapData){
     videoTitleEle.style.display = "block";
     let optionMap = mapData.map(item => `<option value=${item.resourceId.videoId} index=${item.position}>${item.position+'.'+item.title}</option>`);
-    console.log(optionMap);
+    // console.log(optionMap);
     videoTitleEle.innerHTML = optionMap;
 }
 
@@ -488,6 +488,7 @@ document.addEventListener("keydown",function(e){
     let volume = onPlayerReadyEvent.target.getVolume();
     switch(e.key){
         case "w":
+        case "W":
             try {
                 changeToPrevSong();
             } catch (error) {
@@ -495,6 +496,7 @@ document.addEventListener("keydown",function(e){
             }
             break;
         case "s":
+        case "S":
             try {
                 changeToNextSong();
             } catch (error) {
@@ -502,6 +504,7 @@ document.addEventListener("keydown",function(e){
             }
             break;
         case "a":
+        case "A":
             try {
                 currentTime-=5;
                 onPlayerReadyEvent.target.seekTo(currentTime);
@@ -510,6 +513,7 @@ document.addEventListener("keydown",function(e){
             }
             break;
         case "d":
+        case "D":
             try {
                 currentTime+=5;
                 onPlayerReadyEvent.target.seekTo(currentTime);
