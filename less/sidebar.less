@@ -1,0 +1,51 @@
+.toggle-btn {
+    width: 40px;
+    border-radius: 5px;
+    position: fixed;
+    top: 3rem;
+    left: 2rem;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: rgb(0, 0, 0);
+    color: aliceblue;
+}
+.sidebar {
+    padding-top: 3rem;
+    display: flex;
+    flex-flow: column;
+    // gap: 30px;
+    position: fixed;
+    top: 0;
+    left: -250px; /* 將側邊欄隱藏在左邊 */
+    width: 250px;
+    height: 100vh;
+    background-color: #24273b;
+    transition: all 0.3s; /* 添加過渡效果 */
+    color: aliceblue;
+    z-index: 5;
+    .toggle-btn{
+        position:static;
+        margin-left: 2rem;
+    }
+    &>div:not(:first-child){
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // border-top: 1px solid rgb(20, 18, 18);
+        border-bottom: 1px solid rgb(20, 18, 18);
+        text-align: center;
+        height: 50px;
+    }
+}
+
+.sidebar.show {
+    left: 0; /* 顯示側邊欄 */
+}
+@media screen and (max-width: 450px){
+    .toggle-btn {
+        display: none;
+    }  
+    .sidebar{
+        display: none;
+    }
+}

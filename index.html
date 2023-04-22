@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <link rel="stylesheet/less" type="text/css" href="./less/style.less" />
+        <link rel="stylesheet/less" type="text/css" href="./less/sidebar.less" />
     </head>
     <body>
         <div class="nav-bar">
@@ -69,9 +70,19 @@
         <div id="nextImg">
             >
         </div >
-        <div class="live2d-area">
-            <canvas id="canvas"></canvas>
+        <div class="toggle-btn" >☰</div>
+        <div class="sidebar">
+            <div class="toggle-btn">☰</div>
+            <div class="live2d-dragbar-area">   
+                <input type="range" id="size" name="size" min="5" max="100" value="5">
+                <label for="size">L2D大小</label>
+            </div>
+            <div>
+                <input type="checkbox" name="dragable" id="dragable">
+                <label for="dragable">模型拖動</label>
+            </div>
         </div>
+        <canvas id="canvas"></canvas>
 
 
         <!-- <script src=”https://www.youtube.com/player_api"></script> -->
@@ -86,5 +97,7 @@
         <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
         <script src="./js/live2d.js"></script>
+        <script src="./js/toggleSidebar.js"></script>
+
     </body>
 </html>
