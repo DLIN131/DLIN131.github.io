@@ -25,6 +25,13 @@ const progress = document.querySelector(".progress");
 const progressBar = document.querySelector(".progress-bar");
 const endTime = document.querySelector(".end-time");
 const startTime = document.querySelector(".start-time");
+const inputText =  document.getElementById("search-list")
+let keyinFlag = false
+
+//防止在搜尋時觸發鍵盤事件
+inputText.addEventListener('keydown', function(event) {
+    keyinFlag = true;
+  });
 
 let orderFlag = true;
 let youtubeData = null;
@@ -486,74 +493,77 @@ searchListBtn.addEventListener("click",function(){
 document.addEventListener("keydown",function(e){
     let currentTime = onPlayerReadyEvent.target.getCurrentTime();
     let volume = onPlayerReadyEvent.target.getVolume();
-    switch(e.key){
-        case "w":
-        case "W":
-            try {
-                changeToPrevSong();
-            } catch (error) {
-                console.log(error);
-            }
-            break;
-        case "s":
-        case "S":
-            try {
-                changeToNextSong();
-            } catch (error) {
-                console.log(error);
-            }
-            break;
-        case "a":
-        case "A":
-            try {
-                currentTime-=5;
-                onPlayerReadyEvent.target.seekTo(currentTime);
-            } catch (error) {
-                console.log(error);
-            }
-            break;
-        case "d":
-        case "D":
-            try {
-                currentTime+=5;
-                onPlayerReadyEvent.target.seekTo(currentTime);
-            } catch (error) {
-                console.log(error);
-            }
-            break;
-        case "ArrowUp":
-            try {
-                e.preventDefault();
-                volume+=5;
-                onPlayerReadyEvent.target.setVolume(volume);
-            } catch (error) {
-                console.log(error);
-            }
-            break;
-        case "ArrowDown":
-            try {
-                e.preventDefault();
-                volume-=5;
-                onPlayerReadyEvent.target.setVolume(volume);
-            } catch (error) {
-                console.log(error);
-            }
-            break;
-        case " ":
-            try {
-                e.preventDefault();
-                if(onPlayerReadyEvent.target.getPlayerState() === 1){
-                    onPlayerReadyEvent.target.pauseVideo();
+    if (!keyinFlag) {
+        switch(e.key){
+            case "w":
+            case "W":
+                try {
+                    changeToPrevSong();
+                } catch (error) {
+                    console.log(error);
                 }
-                else if(onPlayerReadyEvent.target.getPlayerState() === 2){
-                    onPlayerReadyEvent.target.playVideo();
+                break;
+            case "s":
+            case "S":
+                try {
+                    changeToNextSong();
+                } catch (error) {
+                    console.log(error);
                 }
-            } catch (error) {
-                console.log(error);
-            }
-            break;
-        default:
-            break;
+                break;
+            case "a":
+            case "A":
+                try {
+                    currentTime-=5;
+                    onPlayerReadyEvent.target.seekTo(currentTime);
+                } catch (error) {
+                    console.log(error);
+                }
+                break;
+            case "d":
+            case "D":
+                try {
+                    currentTime+=5;
+                    onPlayerReadyEvent.target.seekTo(currentTime);
+                } catch (error) {
+                    console.log(error);
+                }
+                break;
+            case "ArrowUp":
+                try {
+                    e.preventDefault();
+                    volume+=5;
+                    onPlayerReadyEvent.target.setVolume(volume);
+                } catch (error) {
+                    console.log(error);
+                }
+                break;
+            case "ArrowDown":
+                try {
+                    e.preventDefault();
+                    volume-=5;
+                    onPlayerReadyEvent.target.setVolume(volume);
+                } catch (error) {
+                    console.log(error);
+                }
+                break;
+            case " ":
+                try {
+                    e.preventDefault();
+                    if(onPlayerReadyEvent.target.getPlayerState() === 1){
+                        onPlayerReadyEvent.target.pauseVideo();
+                    }
+                    else if(onPlayerReadyEvent.target.getPlayerState() === 2){
+                        onPlayerReadyEvent.target.playVideo();
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+                break;
+            default:
+                break;
+        }
     }
+    
 })
 
