@@ -32,6 +32,9 @@ let keyinFlag = false
 inputText.addEventListener('keydown', function(event) {
     keyinFlag = true;
   });
+inputText.addEventListener('blur', function(event) {
+    keyinFlag = false;
+});
 let orderFlag = true;
 let youtubeData = null;
 let snippetData=[];
@@ -492,7 +495,7 @@ searchListBtn.addEventListener("click",function(){
 document.addEventListener("keydown",function(e){
     let currentTime = onPlayerReadyEvent.target.getCurrentTime();
     let volume = onPlayerReadyEvent.target.getVolume();
-    keyinFlag = false;
+    console.log(keyinFlag);
     if (!keyinFlag) {
         switch(e.key){
             case "w":
