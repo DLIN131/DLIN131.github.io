@@ -495,7 +495,6 @@ searchListBtn.addEventListener("click",function(){
 document.addEventListener("keydown",function(e){
     let currentTime = onPlayerReadyEvent.target.getCurrentTime();
     let volume = onPlayerReadyEvent.target.getVolume();
-    console.log(keyinFlag);
     if (!keyinFlag) {
         switch(e.key){
             case "w":
