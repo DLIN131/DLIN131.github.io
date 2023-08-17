@@ -31,7 +31,11 @@ let keyinFlag = false
 //防止在搜尋時觸發鍵盤事件
 inputText.addEventListener('keydown', function(event) {
     keyinFlag = true;
-  });
+    console.log(event.key);
+    if (event.key === "Enter") {
+        searchSong(); // 执行搜索操作
+    }
+});
 inputText.addEventListener('blur', function(event) {
     keyinFlag = false;
 });
@@ -473,7 +477,7 @@ orderBtn.addEventListener("click",function(){
 
 
 //搜尋歌曲
-searchListBtn.addEventListener("click",function(){
+function searchSong(){
     const videoName = searchListTxt.value.trim().toLowerCase();
     // console.log(videoName);
     let result;
@@ -485,6 +489,10 @@ searchListBtn.addEventListener("click",function(){
     }
     // console.log(result);
     appendVideoTitle(result);
+}
+
+searchListBtn.addEventListener("click",function(){
+    searchSong();
 })
 
 
