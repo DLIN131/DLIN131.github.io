@@ -7,8 +7,14 @@
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <link rel="stylesheet/less" type="text/css" href="./less/style.less" />
         <link rel="stylesheet/less" type="text/css" href="./less/sidebar.less" />
+        <link rel="stylesheet/less" type="text/css" href="./less/loading-animation.less" />
     </head>
     <body>
+        <div class="loading-container">
+            <div class="dot-pulse">
+                <div class="dot-pulse__dot"></div>
+            </div>
+        </div>
         <div id="put-playlist">
             <div class="listIdHistory">
                 <p>清單Id紀錄 <button id="clearListIdHistory">清除紀錄</button></p> 
@@ -118,9 +124,9 @@
 
 
         <!-- <script src=”https://www.youtube.com/player_api"></script> -->
+        <script src="./js/loadingPage.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://apis.google.com/js/api.js"></script>
-        <!-- <script type="module" src="fetchData.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/less" ></script>
         <script src="./js/index.js"></script>
         <script src="./js/changeBackground.js"></script>
