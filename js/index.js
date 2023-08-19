@@ -13,6 +13,8 @@ const videoTitleEle = document.querySelector("#video-title");
 const randomBtn = document.querySelector("#random-btn");
 const loadImgEle = document.querySelector("#load-img");
 const prevSongBtn = document.querySelector("#prev-song");
+const playBtn = document.querySelector("#play");
+const playSvg = playBtn.querySelectorAll("svg");
 const nextSongBtn = document.querySelector("#next-song");
 const searchBtn = document.querySelector("#search");
 const searchListBtn = document.querySelector("#search-list-btn");
@@ -25,13 +27,14 @@ const progress = document.querySelector(".progress");
 const progressBar = document.querySelector(".progress-bar");
 const endTime = document.querySelector(".end-time");
 const startTime = document.querySelector(".start-time");
-const inputText =  document.getElementById("search-list")
+const inputText =  document.getElementById("search-list");
+
 let keyinFlag = false
 
 //防止在搜尋時觸發鍵盤事件
 inputText.addEventListener('keydown', function(event) {
     keyinFlag = true;
-    console.log(event.key);
+    // console.log(event.key);
     if (event.key === "Enter") {
         searchSong(); // 执行搜索操作
     }
@@ -69,7 +72,7 @@ async function fetchData(){
     }
     nextpageT = youtubeData.nextPageToken;
     }while(nextpageT !== undefined) 
-    console.log(snippetData);
+    // console.log(snippetData);
 }
 
 // console.log(listIdDataArr);
@@ -177,7 +180,7 @@ function onYouTubeIframeAPIReady(){
 let onPlayerReadyEvent;
 function onPlayerReady(event) {
     onPlayerReadyEvent = event;
-    console.log(event);
+    // console.log(event);
     // videoTitleEle.addEventListener("change",function(e){
     //     console.log(e.target);
     // event.target.loadVideoById(e.target.value);
@@ -193,6 +196,7 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
     // console.log(event);
+    changePausePlaySvg(event.data);
     clearTimeout(timer);
     timer = setTimeout(()=>{
         if(event.data === -1){
@@ -423,7 +427,7 @@ function changeToPrevSong(e){
     }
    
 }
-prevSongBtn.addEventListener("click",changeToPrevSong);
+
 
 //切換下一首
 function changeToNextSong(e){
@@ -446,8 +450,35 @@ function changeToNextSong(e){
     
 
 }
-nextSongBtn.addEventListener("click",changeToNextSong);
 
+//播放
+function changePausePlaySvg(player_state){
+    if(player_state === 1){
+        playSvg[0].style.display = "inline-block";
+        playSvg[1].style.display = "none";
+    }
+    else if(player_state === 2){
+        playSvg[1].style.display = "inline-block";
+        playSvg[0].style.display = "none";
+    }
+}
+
+function playSong(e){
+    let player_state = onPlayerReadyEvent.target.getPlayerState()
+    if(player_state === 1){
+        onPlayerReadyEvent.target.pauseVideo();
+        changePausePlaySvg(player_state);
+    }
+    else if(player_state === 2){
+        onPlayerReadyEvent.target.playVideo();
+        changePausePlaySvg(player_state);
+    }
+}
+
+//切換上下首與播放事件處理
+prevSongBtn.addEventListener("click",changeToPrevSong);
+nextSongBtn.addEventListener("click",changeToNextSong);
+playBtn.addEventListener("click",playSong);
 
 //隨機排列
 function Shuffle(arr){
@@ -560,12 +591,7 @@ document.addEventListener("keydown",function(e){
             case " ":
                 try {
                     e.preventDefault();
-                    if(onPlayerReadyEvent.target.getPlayerState() === 1){
-                        onPlayerReadyEvent.target.pauseVideo();
-                    }
-                    else if(onPlayerReadyEvent.target.getPlayerState() === 2){
-                        onPlayerReadyEvent.target.playVideo();
-                    }
+                    playSong();
                 } catch (error) {
                     console.log(error);
                 }

@@ -9,13 +9,6 @@
         <link rel="stylesheet/less" type="text/css" href="./less/sidebar.less" />
     </head>
     <body>
-        <div class="nav-bar">
-            <div class="nav-item">
-                <a href="/">聽歌</a>
-                <a href="#">其他</a>
-            </div>
-        </div>
-        
         <div id="put-playlist">
             <div class="listIdHistory">
                 <p>清單Id紀錄 <button id="clearListIdHistory">清除紀錄</button></p> 
@@ -30,25 +23,63 @@
             </div> 
         </div>
 
-    
         <input type="checkbox" id="checkDisplayPlayer" checked="checked"><span>顯示</span>
         <div id="player"></div>
-
-        <div class="progress-area">
-            <span class="start-time">0:00</span>
-            <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress"></div>
+        <div>
+            <div class="progress-area">
+                <span class="start-time">0:00</span>
+                <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress"></div>
+                </div>
+                <span class="end-time">0:00</span>
             </div>
-            <span class="end-time">0:00</span>
         </div>
+        
         <div id="button-area">
             <button id="prev-song"><</button>
-            <button id="next-song">></button>
-            <button id="random-btn">隨機</button>
-            <button id="order">順序</button>
-            <button id="use-localStorage">過往清單</button>
+            <button id="play">
+                <svg fill="white" width="18px" height="18px" viewBox="0 0 20 20" style="display: none;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,
+                    3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,
+                    1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/>
+                </svg>
+                <svg fill="white" width="18px" height="18px" viewBox="0 0 36 36"  version="1.1"  preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <title>pause-line</title>
+                    <path class="clr-i-outline clr-i-outline-path-1" d="M12.93,32H6.07A2.07,2.07,0,0,1,4,29.93V6.07A2.07,2.07,0,0,1,6.07,4h6.87A2.07,2.07,0,0,1,15,6.07V29.93A2.07,
+                    2.07,0,0,1,12.93,32ZM13,6H6V30h7Z"></path><path class="clr-i-outline clr-i-outline-path-2" d="M29.93,32H23.07A2.07,2.07,0,0,1,21,29.93V6.07A2.07,2.07,0,0,1,23.07,
+                    4h6.87A2.07,2.07,0,0,1,32,6.07V29.93A2.07,2.07,0,0,1,29.93,32ZM30,6H23V30h7Z"></path>
+                    <rect x="0" y="0" width="36" height="36" fill-opacity="0"/>
+                </svg>
+            </button>
+            <button id="next-song">></button><br>
+            <button id="random-btn">
+                <svg fill="white" width="15px" height="15px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <path  d="M13 12h-2c-1 0-1.7-1.2-2.4-2.7-0.3 0.7-0.6 1.5-1 2.3 0.8 1.4 1.8 2.4 3.4 2.4h2v2l3-3-3-3v2z"></path>
+                    <path  d="M5.4 6.6c0.3-0.7 0.6-1.5 1-2.2-0.8-1.4-1.9-2.4-3.4-2.4h-3v2h3c1 0 1.7 1.2 2.4 2.6z"></path>
+                    <path  d="M16 3l-3-3v2h-2c-2.7 0-3.9 3-5 5.7-0.8 2.1-1.7 4.3-3 4.3h-3v2h3c2.6 0 3.8-2.8 4.9-5.6 0.9-2.2 1.8-4.4 3.1-4.4h2v2l3-3z"></path>
+                </svg>
+            </button>
+            <button id="order">
+                <svg fill="white" width="15px" height="15px" viewBox="0 0 20 20" id="right-double-arrow"  xmlns="http://www.w3.org/2000/svg" class="icon flat-line">
+                    <polyline id="primary" points="17 20 20 17 17 14" style="fill: none; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline>
+                    <path id="primary-2" data-name="primary" d="M4,17H20M4,7H20" style="fill: none; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                    <polyline id="primary-3" data-name="primary" points="17 10 20 7 17 4" style="fill: none; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline>
+                </svg>
+            </button>
+            <button id="use-localStorage">
+                <svg fill="white" width="15px" height="15px" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12,2A10,10,0,0,0,5.12,4.77V3a1,1,0,0,0-2,0V7.5a1,1,0,0,0,1,1H8.62a1,1,0,0,0,0-2H6.22A8,8,0,1,1,4,12a1,1,0,0,0-2,0A10,10,0,1,0,12,2Zm0,6a1,1,0,0,0-1,
+                    1v3a1,1,0,0,0,1,1h2a1,1,0,0,0,0-2H13V9A1,1,0,0,0,12,8Z"/>
+                </svg>
+            </button>
             <input  id="search-list" type="text" name="search-list" value="" placeholder="video search">
-            <button id="search-list-btn">搜尋</button>
+            <button id="search-list-btn">
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" 
+                d="M16.3451 15.2003C16.6377 15.4915 16.4752 15.772 16.1934 16.0632C16.15 16.1279 16.0958 16.1818 16.0525 16.2249C15.7707 16.473 15.4456 16.624 15.1854 
+                16.3652L11.6848 12.8815C10.4709 13.8198 8.97529 14.3267 7.44714 14.3267C3.62134 14.3267 0.5 11.2314 0.5 7.41337C0.5 3.60616 3.6105 0.5 7.44714 0.5C11.2729 0.5 14.3943 
+                3.59538 14.3943 7.41337C14.3943 8.98802 13.8524 10.5087 12.8661 11.7383L16.3451 15.2003ZM2.13647 7.4026C2.13647 10.3146 4.52083 12.6766 7.43624 12.6766C10.3517 12.6766 
+                12.736 10.3146 12.736 7.4026C12.736 4.49058 10.3517 2.1286 7.43624 2.1286C4.50999 2.1286 2.13647 4.50136 2.13647 7.4026Z" fill="currentColor"></path></svg>
+            </button>
             
         </div>
         
