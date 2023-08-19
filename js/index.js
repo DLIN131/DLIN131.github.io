@@ -454,12 +454,12 @@ function changeToNextSong(e){
 //播放
 function changePausePlaySvg(player_state){
     if(player_state === 1){
-        playSvg[0].style.display = "inline-block";
-        playSvg[1].style.display = "none";
-    }
-    else if(player_state === 2){
         playSvg[1].style.display = "inline-block";
         playSvg[0].style.display = "none";
+    }
+    else if(player_state === 2){
+        playSvg[0].style.display = "inline-block";
+        playSvg[1].style.display = "none";
     }
 }
 
@@ -467,11 +467,9 @@ function playSong(e){
     let player_state = onPlayerReadyEvent.target.getPlayerState()
     if(player_state === 1){
         onPlayerReadyEvent.target.pauseVideo();
-        changePausePlaySvg(player_state);
     }
     else if(player_state === 2){
         onPlayerReadyEvent.target.playVideo();
-        changePausePlaySvg(player_state);
     }
 }
 
