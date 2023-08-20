@@ -330,7 +330,19 @@ async function main(){
 
 //appendPlaylistEvent
 searchBtn.addEventListener("click",function(e){
-    const PLID = document.getElementById("playlist-url").value;
+    // const PLID = document.getElementById("playlist-url").value;
+    let url = document.getElementById("playlist-url").value;
+    let pattern = /list=([a-zA-Z0-9_-]+)/;
+    let match = url.match(pattern);
+    let PLID = '';
+    if(match){
+        PLID = match[1];
+    }
+    else{
+        PLID = url;
+    }
+
+    // console.log(PLID);
     if(!checkPlaylistIdExist(PLID,playlistIdTempArr)){
         playlistId = PLID;
         main();
