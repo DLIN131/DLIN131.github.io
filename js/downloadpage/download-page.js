@@ -41,7 +41,7 @@ async function downLoadSong(){
             }
             // console.log(params);
             try {
-              const response = await fetch(`http://localhost:5000/${params.videoId}`);
+              const response = await fetch(`https://ytdl-server-byvu.onrender.com/${params.videoId}`);
               const blob = await response.blob();
             //   console.log(blob);
               const url = URL.createObjectURL(blob);
