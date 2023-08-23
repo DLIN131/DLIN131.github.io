@@ -7,7 +7,8 @@
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <link rel="stylesheet/less" type="text/css" href="./less/style.less" />
         <link rel="stylesheet/less" type="text/css" href="./less/sidebar.less" />
-        <link rel="stylesheet/less" type="text/css" href="./less/loading-animation.less" />
+        <link rel="stylesheet/less" type="text/css" href="./less/loading-animation.css" />
+        
     </head>
     <body>
         <div class="loading-container">
@@ -80,6 +81,10 @@
                     1v3a1,1,0,0,0,1,1h2a1,1,0,0,0,0-2H13V9A1,1,0,0,0,12,8Z"/>
                 </svg>
             </button>
+            <button id="download">
+                <a href="download-page.html">DL</a>
+            </button>
+            
             <input  id="search-list" type="text" name="search-list" value="" placeholder="video search">
             <button id="search-list-btn">
                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" 
@@ -121,6 +126,9 @@
                 <input type="checkbox" name="dragable" id="dragable">
                 <label for="dragable">模型拖動</label>
             </div>
+            <!-- <div>
+                <a href="download-page.html" style="font-size: 1.5rem; color:white">download Song</a>
+            </div> -->
         </div>
         <canvas id="canvas"></canvas>
 
