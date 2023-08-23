@@ -255,15 +255,17 @@ body{
     background: none;
     // height: 50vh;
     &>option{
+        --curve-size:.9rem;
         height: 50px;
         width: 70%;
-        border: 3px solid black;
-        border-bottom: none;
+        // border: 5px solid black;
+        // border-bottom: 5px solid rgb(1, 0, 66);
+        // border-width: .5rem;
         // border-radius: 20px;
         // border-top-left-radius: 40px;
-        border-bottom-right-radius: 40px;
-        border-top-right-radius: 5px;
-        border-bottom-left-radius: 5px;
+        // border-bottom-right-radius: 40px;
+        // border-top-right-radius: 5px;
+        // border-bottom-left-radius: 5px;
         // background:linear-gradient(rgb(44, 245, 195) 80%, hwb(0 3% 97%));
         // background:linear-gradient(rgb(255, 255, 255) 80%, hwb(0 73% 27%));
         background:linear-gradient(to bottom, rgba(255, 255, 255,.9) 80%,rgba(102, 102, 102, 0.5) 20%);
@@ -276,12 +278,25 @@ body{
         overflow: hidden;
         text-overflow:ellipsis;
         padding-top: 5px;
+        clip-path: polygon(
+          /* Top-left */
+            0 0,
+            /* top-right */
+           calc(100% - var(--curve-size)) 0,
+            100% calc(var(--curve-size)),
+
+            /* bottom-right 1 */
+          100% 100%,
+           /* bottom-right 2 */
+           0 100%
+         );
         &:hover{
             background:linear-gradient(to bottom, rgba(102, 102, 102,.9) 80%,rgba(255, 255, 255, 0.5) 20%);
             // color: white;
             width: 80%;
             font-size: 20px;
         }
+        
     }
 }
 .option-background{
@@ -357,6 +372,14 @@ body{
         border-color: rgb(61, 97, 129);
         background-color: #1a1717;
     }
+    &>#download{
+        width:40px;
+        a{
+            width: 100%;
+            height: 100%;
+            color: white;
+        }
+    }
 }
 
 #prevImg{
@@ -416,12 +439,12 @@ canvas{
         gap: 10px;
         background-image: none;
         background-color: #000000;
-        background-position-x: 0px;
-        background-repeat:no-repeat;
-        background-attachment:fixed;
-        background-size:100% 100%;
-        position: relative;
-        transition: background 0.5s ease-in;
+        // background-position-x: 0px;
+        // background-repeat:no-repeat;
+        // background-attachment:fixed;
+        // background-size:100% 100%;
+        // position: relative;
+        // transition: background 0.5s ease-in;
         &::after{
             content: '';
             background-image: none;

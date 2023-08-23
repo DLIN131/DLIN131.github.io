@@ -27,19 +27,18 @@ const progress = document.querySelector(".progress");
 const progressBar = document.querySelector(".progress-bar");
 const endTime = document.querySelector(".end-time");
 const startTime = document.querySelector(".start-time");
-const inputText =  document.getElementById("search-list");
 
 let keyinFlag = false
 
 //防止在搜尋時觸發鍵盤事件
-inputText.addEventListener('keydown', function(event) {
+searchListTxt.addEventListener('keydown', function(event) {
     keyinFlag = true;
     // console.log(event.key);
     if (event.key === "Enter") {
         searchSong(); // 执行搜索操作
     }
 });
-inputText.addEventListener('blur', function(event) {
+searchListTxt.addEventListener('blur', function(event) {
     keyinFlag = false;
 });
 let orderFlag = true;
