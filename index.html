@@ -82,7 +82,7 @@
                 </svg>
             </button>
             <button id="download">
-                <a href="download-page.html">DL</a>
+                <a href="download-page.html" target="_blank">DL</a>
             </button>
             
             <input  id="search-list" type="text" name="search-list" value="" placeholder="video search">
@@ -109,6 +109,7 @@
                 <option value="UQgv8MBxCuU">刀劍神域十周年紀念pv</option>
                 <option value="aPKlAGohXvg"> PaⅢ.AGITATION / 初音ミク×GUMI×鏡音リン</option> -->
             </select>
+        </div>
         <div id="prevImg">
             <
         </div>
@@ -129,6 +130,10 @@
             <!-- <div>
                 <a href="download-page.html" style="font-size: 1.5rem; color:white">download Song</a>
             </div> -->
+            <div class="model-select">
+                <select name="models" id="models" >
+                </select>
+            </div>
         </div>
         <canvas id="canvas"></canvas>
 
@@ -144,8 +149,8 @@
         <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/pixi.js@6.5.2/dist/browser/pixi.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
-        <script src="./js/live2d.js"></script>
+        <script src="./js/checkDevice.js"></script>
+        <!-- <script src="./js/live2d.js" ></script> -->
         <script src="./js/toggleSidebar.js"></script>
-
     </body>
 </html>
