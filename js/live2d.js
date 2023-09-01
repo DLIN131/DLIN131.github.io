@@ -73,23 +73,14 @@ let model = null;
 let app = null;
 
 //if is pc then load live2d
-function checkCanvas(){
-  if(myCanvas.style.display != "none"){
-      app = new PIXI.Application({
-      view: myCanvas,
-      autoStart: true,
-      transparent: true,
-      resizeTo: window,
-    });
-    addModelsName();
-    randomModel();
-    console.log(myCanvas.style.display);
-  }
-  else{
-    console.log("mobile mode");
-  }
-}
-checkCanvas();
+app = new PIXI.Application({
+  view: myCanvas,
+  autoStart: true,
+  transparent: true,
+  resizeTo: window,
+});
+addModelsName();
+randomModel();
 
 
 //add mode name to option element
@@ -163,8 +154,8 @@ function draggable(dragFlag,buttonMode) {
 async function main() {
   app.stage.removeChild(model);
   model = await PIXI.live2d.Live2DModel.from(l2dModel);
-  const scaleX = (innerWidth * 0.8) / model.width;
-  const scaleY = (innerHeight * 0.8) / model.height;
+  const scaleX = (innerWidth * 0.6) / model.width;
+  const scaleY = (innerHeight * 0.6) / model.height;
   app.stage.addChild(model);
   model.scale.set(Math.min(scaleX, scaleY));
   model.position.x  = innerWidth*0.6;
