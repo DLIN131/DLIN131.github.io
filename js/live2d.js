@@ -153,10 +153,12 @@ function draggable(dragFlag,buttonMode) {
 
 async function loadLive2dModel() {
   app.stage.removeChild(model);
+  app.stage.children = [];
   model = await PIXI.live2d.Live2DModel.from(l2dModel);
   const scaleX = (innerWidth * 0.6) / model.width;
   const scaleY = (innerHeight * 0.6) / model.height;
   app.stage.addChild(model);
+  console.log(app.stage);
   model.scale.set(Math.min(scaleX, scaleY));
   model.position.x  = innerWidth*0.6;
   model.position.y = innerHeight * 0.1;
