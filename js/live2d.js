@@ -98,7 +98,7 @@ function selectedEvent(ele){
 function changeModel(e){
   let name = e.target.value;
   l2dModel = `./models/assets/${name}/${name}.model3.json`;
-  main();
+  loadLive2dModel();
 }
 
 
@@ -122,7 +122,7 @@ function randomModel(){
   let name = modelNames[randomN];
   l2dModel = `./models/assets/${name}/${name}.model3.json`;
   console.log(name);
-  main();
+  loadLive2dModel();
 }
 
 
@@ -151,7 +151,7 @@ function draggable(dragFlag,buttonMode) {
 }
 
 
-async function main() {
+async function loadLive2dModel() {
   app.stage.removeChild(model);
   model = await PIXI.live2d.Live2DModel.from(l2dModel);
   const scaleX = (innerWidth * 0.6) / model.width;
