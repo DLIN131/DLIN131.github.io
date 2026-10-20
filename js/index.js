@@ -4,7 +4,7 @@
 
 const API_KEY = "AIzaSyDiWp98C7yAeOmww4UPauEGc1G0yAgYSIs";
 const api = "https://www.googleapis.com/youtube/v3/playlistItems?key=AIzaSyDiWp98C7yAeOmww4UPauEGc1G0yAgYSIs";
-const part = "contentDetails,snippet,status";
+const part = "snippet";
 let playlistId = "";//"PLR3WiLknrVUZX033xFGw8ISMA_RdXUnNk";
 const maxResults = 50;
 let nextpageT;
@@ -63,9 +63,15 @@ async function fetchData(){
     youtubeData = res.data;
     // console.log(youtubeData);
     for(let i=0;i<youtubeData.items.length;i++){
-        if(youtubeData.items[i].snippet.title !== "Deleted video" 
-        && youtubeData.items[i].snippet.title !=="Private video"){
-            snippetData.push(youtubeData.items[i].snippet);
+        const snippet = youtubeData.items[i].snippet;
+        if(snippet.title !== "Deleted video"
+        && snippet.title !=="Private video"){
+            // 只保留需要的欄位，完整 snippet 含描述與縮圖，清單一大就會超過 localStorage 容量
+            snippetData.push({
+                title: snippet.title,
+                position: snippet.position,
+                resourceId: { videoId: snippet.resourceId.videoId }
+            });
         }
         
     }
@@ -321,9 +327,9 @@ async function main(){
     
     loadImgEle.style.display = "none";
     searchBtn.disabled = false;
-    updateLocalStorage("playlist",snippetData);
     // console.log(snippetData.length);
     appendVideoTitle(snippetData);
+    updateLocalStorage("playlist",snippetData);
    
 }
 
@@ -363,17 +369,35 @@ searchBtn.addEventListener("click",function(e){
 //***********************************localStorage******************//
 /////////////////////////////////////////////////////////////////////
 function updateLocalStorage(keyName ,value){
-    localStorage.setItem(keyName,JSON.stringify(value));
-    // console.log("localstorage");
+    // 存不下時只放棄記錄，不影響清單顯示與播放
+    try {
+        localStorage.setItem(keyName,JSON.stringify(value));
+    } catch (error) {
+        console.warn(`無法儲存 ${keyName} 到 localStorage`, error);
+    }
 }
 function useLocalStorageItem(keyName){
-    snippetData = JSON.parse(localStorage.getItem(keyName));
-    // console.log("localStorageList"+snippetData);
+    let saved = null;
+    try {
+        saved = JSON.parse(localStorage.getItem(keyName));
+    } catch (error) {
+        saved = null;
+    }
+    if(!Array.isArray(saved) || saved.length === 0){
+        alert("沒有上次的清單紀錄，請先加入清單");
+        return;
+    }
+    snippetData = saved;
     appendVideoTitle(snippetData);
-    let index = localStorage.getItem("listIndex");
+    let index = Number(localStorage.getItem("listIndex"));
+    if(!(index >= 0 && index < videoTitleEle.options.length)){
+        index = 0;
+    }
     videoTitleEle.options[index].selected = "selected";
     changeOptionBackground(index);
-    onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+    if(onPlayerReadyEvent){
+        onPlayerReadyEvent.target.loadVideoById(videoTitleEle.options[index].value);
+    }
 }
 useLocalStorageBtn.addEventListener("click",function(){
     useLocalStorageItem("playlist");
@@ -421,6 +445,7 @@ videoTitleEle.addEventListener("change",function(e){
 
 //切換上一首
 function changeToPrevSong(e){
+    if(videoTitleEle.options.length === 0) return;
     let index = videoTitleEle.selectedIndex;
     if(videoTitleEle.options[index-1] !==undefined){
         videoTitleEle.options[index-1].selected = "selected"; 
@@ -443,6 +468,7 @@ function changeToPrevSong(e){
 
 //切換下一首
 function changeToNextSong(e){
+    if(videoTitleEle.options.length === 0) return;
     let index = videoTitleEle.selectedIndex;
     
     if(videoTitleEle.options[index+1] !==undefined){
