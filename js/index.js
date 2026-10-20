@@ -230,8 +230,9 @@ function setProgress(e){
      const duration =  onPlayerReadyEvent.target.getDuration();
      
     //  console.log(duration);
-     const progressBarWidth = progressBar.offsetWidth;
-     const clickPosition = e.clientX - progressBar.offsetLeft;
+     const rect = progressBar.getBoundingClientRect();
+     const progressBarWidth = rect.width;
+     const clickPosition = Math.min(Math.max(e.clientX - rect.left, 0), progressBarWidth);
      const clickPercentage = (clickPosition / progressBarWidth) * 100;
      progress.style.width = `${clickPercentage}%`;
      onPlayerReadyEvent.target.seekTo(duration*(clickPercentage/100));
@@ -322,7 +323,6 @@ async function main(){
     searchBtn.disabled = false;
     updateLocalStorage("playlist",snippetData);
     // console.log(snippetData.length);
-    nextSongBtn.style.display = prevSongBtn.style.display = randomBtn.style.display = "inline";
     appendVideoTitle(snippetData);
    
 }
@@ -542,6 +542,10 @@ searchListBtn.addEventListener("click",function(){
 /*******************************************************************************************/
 
 document.addEventListener("keydown",function(e){
+    // 在文字框或滑桿上操作時不觸發快捷鍵
+    if (e.target.matches("input[type=text], input[type=range], textarea") || !onPlayerReadyEvent) {
+        return;
+    }
     let currentTime = onPlayerReadyEvent.target.getCurrentTime();
     let volume = onPlayerReadyEvent.target.getVolume();
     if (!keyinFlag) {
