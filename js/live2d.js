@@ -83,6 +83,7 @@ const DEFAULTS = {
   shadow: true,
   follow: true,
   tap: true,
+  crop: true,
 };
 const SCALE_MIN = 0.3;
 const SCALE_MAX = 2.5;
@@ -123,6 +124,7 @@ const ui = {
   shadow: $("l2d-shadow"),
   follow: $("l2d-follow"),
   tap: $("l2d-tap"),
+  crop: $("l2d-crop"),
   edit: $("dragable"),
   editDone: $("l2d-edit-done"),
   reset: $("l2d-reset"),
@@ -196,10 +198,14 @@ function measureContent(m){
       if (core.getDrawableOpacity(i) < 0.05) continue;
       const b = im.getDrawableBounds(i);
       if (!isFinite(b.x) || !isFinite(b.y)) continue;
-      minX = Math.min(minX, b.x);
-      minY = Math.min(minY, b.y);
-      maxX = Math.max(maxX, b.x + b.width);
-      maxY = Math.max(maxY, b.y + b.height);
+      // 有些模型的特效圖層放在畫布外很遠的地方，只計算畫布範圍內的部分
+      const l = Math.max(b.x, 0), t = Math.max(b.y, 0);
+      const r = Math.min(b.x + b.width, im.width), btm = Math.min(b.y + b.height, im.height);
+      if (r <= l || btm <= t) continue;
+      minX = Math.min(minX, l);
+      minY = Math.min(minY, t);
+      maxX = Math.max(maxX, r);
+      maxY = Math.max(maxY, btm);
     }
   } catch (e) {
     console.warn("measure live2d content failed", e);
@@ -244,6 +250,7 @@ async function loadModel(name){
 
     bindMotionEvents(model);
     renderMotionButtons();
+    applyCrop();
     applyTransform();
     applyAppearance();
     myCanvas.classList.add("ready");
@@ -269,10 +276,11 @@ function setStatus(text, type){
 /****************************************************************/
 /*                         位置 / 大小 / 外觀                    */
 /****************************************************************/
+// 寬度上限約等於播放器靠左時右側的空白區域，寬幅場景類模型也能完整露出
 function fitScale(){
   return Math.min(
     (innerHeight * 0.92) / content.height,
-    (innerWidth * 0.7) / content.width
+    (innerWidth * 0.42) / content.width
   );
 }
 
@@ -293,6 +301,25 @@ function applyAppearance(){
   // 隱藏時停止繪製，節省效能
   if (settings.visible) app.start(); else app.stop();
   if (model && !settings.follow) model.focus(innerWidth / 2, innerHeight / 2);
+}
+
+// 裁掉模型畫框外的圖層（遊戲內也只顯示畫框範圍），避免超大特效圖層蓋滿畫面
+function applyCrop(){
+  if (!model) return;
+  if (!settings.crop) {
+    model.mask = null;
+    return;
+  }
+  if (!model.cropFrame) {
+    const im = model.internalModel;
+    model.cropFrame = new PIXI.Graphics().beginFill(0xffffff).drawRect(0, 0, im.width, im.height).endFill();
+    model.addChild(model.cropFrame);
+  }
+  // 用 stencil 遮罩；scissor 遮罩會影響 Live2D 自己的裁切遮罩繪製
+  const mask = new PIXI.MaskData(model.cropFrame);
+  mask.type = PIXI.MASK_TYPES.STENCIL;
+  mask.autoDetect = false;
+  model.mask = mask;
 }
 
 function setScale(value){
@@ -464,6 +491,7 @@ function syncUI(){
   ui.shadow.checked = settings.shadow;
   ui.follow.checked = settings.follow;
   ui.tap.checked = settings.tap;
+  ui.crop.checked = settings.crop;
 }
 
 function stepModel(step){
@@ -508,6 +536,7 @@ bindToggle(ui.flip, "flip", applyTransform);
 bindToggle(ui.shadow, "shadow", applyAppearance);
 bindToggle(ui.follow, "follow", applyAppearance);
 bindToggle(ui.tap, "tap");
+bindToggle(ui.crop, "crop", applyCrop);
 
 document.querySelectorAll(".seg [data-pos]").forEach(btn => {
   btn.addEventListener("click", () => {

@@ -83,8 +83,9 @@ body{
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
+    // 模糊度可在設定面板調整（--card-blur）
+    backdrop-filter: ~"blur(var(--card-blur, 16px)) saturate(140%)";
+    -webkit-backdrop-filter: ~"blur(var(--card-blur, 16px)) saturate(140%)";
 }
 
 .icon-btn{
@@ -218,6 +219,14 @@ select{
     display: flex;
     flex-direction: column;
     gap: 18px;
+}
+// 介面位置（設定面板切換），預留左右背景切換按鈕的空間
+body[data-layout="left"] .app{
+    margin-left: 72px;
+}
+body[data-layout="right"] .app{
+    margin-right: 72px;
+    margin-left: auto;
 }
 
 // ---------- 加入清單 ----------
@@ -669,7 +678,9 @@ body.l2d-editing .l2d-edit-hint{
         padding: 18px 16px 0;
     }
     .brand{ margin-left: 0; }
-    .app{
+    .app,
+    body[data-layout] .app{
+        margin: 0 auto;
         width: calc(100% - 24px);
         padding-top: 14px;
         gap: 12px;
